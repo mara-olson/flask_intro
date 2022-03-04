@@ -18,14 +18,20 @@ AWESOMENESS = [
 def start_here():
     """Home page."""
 
-    return "<!doctype html><html>Hi! This is the home page.</html>"
+    return """<!doctype html>
+    <html>
+    <h1>Hi! This is the home page.</h1>
+    <a href="/hello">Go to Hello</a>
+    </html>"""
 
 
 @app.route('/hello')
 def say_hello():
     """Say hello and prompt for user's name."""
-
-    return """
+    compliment1 = choice(AWESOMENESS)
+    compliment2 = choice(AWESOMENESS)
+    compliment3 = choice(AWESOMENESS)
+    return f"""
     <!doctype html>
     <html>
       <head>
@@ -35,6 +41,10 @@ def say_hello():
         <h1>Hi There!</h1>
         <form action="/greet">
           What's your name? <input type="text" name="person">
+          Choose your compliment. <select name="compliment">
+            <option value="{compliment1}">{compliment1}</option>
+            <option value="{compliment2}">{compliment2}</option>
+            <option value="{compliment3}">{compliment3}</option>
           <input type="submit" value="Submit">
         </form>
       </body>
@@ -48,7 +58,7 @@ def greet_person():
 
     player = request.args.get("person")
 
-    compliment = choice(AWESOMENESS)
+    compliment = request.args.get("compliment")
 
     return f"""
     <!doctype html>
@@ -66,4 +76,4 @@ def greet_person():
 if __name__ == '__main__':
     # debug=True gives us error messages in the browser and also "reloads"
     # our web app if we change the code.
-    app.run(debug=True, host="0.0.0.0")
+    app.run(debug=True, host="0.0.0.0", port="5001")
